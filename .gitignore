@@ -1,0 +1,8 @@
+venv/
+Ejercicio1/test.py
+*.DS_Store
+Ejemplos.py
+*.pyc
+*.pyo
+*.out
+**/parsetab.py
