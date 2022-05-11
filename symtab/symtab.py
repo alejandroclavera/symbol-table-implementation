@@ -9,25 +9,28 @@ class Entry:
     size:int
     data:dict
 
-    def __init__(self, symbol:str, type:str, size:int, data={}): 
+    def __init__(self, symbol:str, type:int, size:int, offset:int, data={}): 
         self.symbol = symbol
         self.type = type
         self.size = size
+        self.offset = offset
         self.data = data
 
     def __eq__(self, other):
-        return self.symbol == other.symbol \
-        and self.type == other.type \
-        and self.size == other.size
-        # chek data (TODO)
-    
+        return \
+            self.symbol == other.symbol \
+            and self.type == other.type \
+            and self.size == other.size \
+            and self.offset == other.offset \
+            and self.data == other.data
+        
 
 class SYMTAB(ABC):
     '''
     Abstract class definition of SYMTAB
     '''
     @abstractmethod
-    def sym_add(self, symbol:str, type:str, size:int, data={}):
+    def sym_add(self, symbol:str, type:int, size:int, offset:int, data={}):
         pass
     
     @abstractmethod
@@ -47,13 +50,13 @@ class SimpleSymTab(SYMTAB):
     def __init__(self):
         self.symbol_table = []
 
-    def sym_add(self, symbol:str, type:str, size:int, data={}):
+    def sym_add(self, symbol:str, type:int, size:int, offset:int, data={}):
         # find if the symbol are registered in the table
         entry_in_table = self.sym_lookup(symbol)
         if not entry_in_table is None:
             return None
         # registre new entry in the symbol table
-        symbol_entry = Entry(symbol, type, size, data) 
+        symbol_entry = Entry(symbol, type, size, offset, data) 
         self.symbol_table.append(symbol_entry)
         return symbol_entry 
 
@@ -87,8 +90,8 @@ class MultiScopeSymTab(SYMTAB):
         self.__current_scope__ = self.__global_scope__
 
 
-    def sym_add(self, symbol:str, type:str, size:int, data={}):
-        return self.__current_scope__.sym_add(symbol, type, size, data)
+    def sym_add(self, symbol:str, type:int, size:int, offset:int, data={}):
+        return self.__current_scope__.sym_add(symbol, type, size, offset, data)
 
 
     def sym_lookup(self, symbol:str):
