@@ -90,6 +90,3 @@ class HashStructure:
         if symbol not in self.__entries__:
             raise Exception('symbol \'' + symbol + '\' not found' )
         del self.__entries__[symbol]
-
-
-

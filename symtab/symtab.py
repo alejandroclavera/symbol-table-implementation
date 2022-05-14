@@ -57,9 +57,9 @@ class MultiScopeSymTab(SYMTAB):
     __global_scope__:SimpleSymTab
     __current_scope__:SimpleSymTab
     
-    def __init__(self):
+    def __init__(self, glob_optimization=True):
         self.__scopes_stack__ = []
-        self.__global_scope__ = SimpleSymTab()
+        self.__global_scope__ = SimpleSymTab(optimized=glob_optimization)
         self.__current_scope__ = self.__global_scope__
 
 
