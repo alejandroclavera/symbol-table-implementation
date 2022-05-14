@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
-from symtab.data import Entry, ListStructure
-from symtab.data import HashStructure
+from symtab.data import Entry, ListStructure, HashStructure
 
        
 class SYMTAB(ABC):
