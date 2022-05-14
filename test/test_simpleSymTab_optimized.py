@@ -8,7 +8,7 @@ symbols = [('s1', 1, 0, 0),
         ]
 
 def test_add_new_symbol():
-    syntab = SimpleSymTab()
+    syntab = SimpleSymTab(optimized=True)
     # add symbol
     table_entry =  syntab.sym_add('symbol', 1, 1, 0)
     assert table_entry is not None
@@ -16,7 +16,7 @@ def test_add_new_symbol():
 
 
 def test_add_multiples_new_symbol():
-    syntab = SimpleSymTab()
+    syntab = SimpleSymTab(optimized=True)
     for symbol in symbols:
         assert syntab.sym_add(*symbol) is not None
     table_entry  =  syntab.sym_add('symbol', 1, 1, 0)
@@ -24,13 +24,13 @@ def test_add_multiples_new_symbol():
 
 
 def test_add_duplicated_symbol():
-    syntab = SimpleSymTab()
+    syntab = SimpleSymTab(optimized=True)
     assert syntab.sym_add('symbol', 1, 1, 0) is not None
     assert syntab.sym_add('symbol', 3, 1, 0) is None
 
 
 def test_remove_symbol():
-    syntab = SimpleSymTab()
+    syntab = SimpleSymTab(optimized=True)
     syntab.sym_add('symbol', 1, 1, 0) is not None
     syntab.sym_remove('symbol')
     assert syntab.sym_lookup('symbol') is None

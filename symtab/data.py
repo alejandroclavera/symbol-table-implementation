@@ -22,6 +22,13 @@ class Entry:
             and self.offset == other.offset \
             and self.data == other.data
 
+    def __str__(self):
+        return f'[{self.symbol}]'
+
+    def __repr__(self):
+        return f'[{self.symbol}]'
+        
+
 
 class ListStructure:
     __entries__:list
@@ -29,14 +36,24 @@ class ListStructure:
     def __init__(self):
         self.__entries__ = []
 
+    
+    def __contains__(self, symbol:str):
+        for entry in self.__entries__:
+            if symbol == entry.symbol:
+                return True
+        return False
+
+
     def append(self, entry:Entry):
         self.__entries__.append(entry)
     
-    def find(self, symbol:str):
+
+    def get(self, symbol:str):
         for entry in self.__entries__:
             if symbol == entry.symbol:
                 return entry
         return None
+
 
     def remove(self, symbol:str):
         removed = False
@@ -56,10 +73,16 @@ class HashStructure:
     def __init__(self):
         self.__entries__ = {}
 
+
+    def __contains__(self, symbol:str):
+        return symbol in self.__entries__
+
+
     def append(self, entry:Entry):
         self.__entries__[entry.symbol] = entry
     
-    def find(self, symbol:str):
+
+    def get(self, symbol:str):
        return self.__entries__.get(symbol, None)
 
 

@@ -1,4 +1,7 @@
 from abc import ABC, abstractmethod
+from symtab.data import Entry, ListStructure
+from symtab.data import HashStructure
+
        
 class SYMTAB(ABC):
     '''
@@ -22,13 +25,15 @@ class SimpleSymTab(SYMTAB):
     Symbol table implementation without scope support.
     '''
     
-    def __init__(self):
-        self.symbol_table = []
+    def __init__(self, optimized=False):
+        if optimized:
+            self.symbol_table = HashStructure()
+        else:
+            self.symbol_table = ListStructure()
 
     def sym_add(self, symbol:str, type:int, size:int, offset:int, data={}):
         # find if the symbol are registered in the table
-        entry_in_table = self.sym_lookup(symbol)
-        if not entry_in_table is None:
+        if symbol in self.symbol_table:
             return None
         # registre new entry in the symbol table
         symbol_entry = Entry(symbol, type, size, offset, data) 
@@ -37,18 +42,11 @@ class SimpleSymTab(SYMTAB):
 
 
     def sym_lookup(self, symbol:str):
-        for entry in self.symbol_table:
-            if symbol == entry.symbol:
-                return entry
-            return None
+        return self.symbol_table.get(symbol)
 
 
     def sym_remove(self, symbol:str):
-        # find if the symbol are registered in the table
-        entry_in_table = self.sym_lookup(symbol)
-        if entry_in_table is None:
-            raise Exception(f'Symbol {symbol} not registered')
-        self.symbol_table.remove(entry_in_table)
+        self.symbol_table.remove(symbol)
 
 
 class MultiScopeSymTab(SYMTAB):
