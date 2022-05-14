@@ -1,30 +1,5 @@
 from abc import ABC, abstractmethod
-
-class Entry:
-    '''
-    Entry of a SYMTAB
-    '''
-    symbol: str
-    type: str
-    size:int
-    data:dict
-
-    def __init__(self, symbol:str, type:int, size:int, offset:int, data={}): 
-        self.symbol = symbol
-        self.type = type
-        self.size = size
-        self.offset = offset
-        self.data = data
-
-    def __eq__(self, other):
-        return \
-            self.symbol == other.symbol \
-            and self.type == other.type \
-            and self.size == other.size \
-            and self.offset == other.offset \
-            and self.data == other.data
-        
-
+       
 class SYMTAB(ABC):
     '''
     Abstract class definition of SYMTAB
@@ -131,4 +106,3 @@ class MultiScopeSymTab(SYMTAB):
         self.__scopes_stack__.pop()
         self.__current_scope__ = self.__scopes_stack__[-1]
 
-    
