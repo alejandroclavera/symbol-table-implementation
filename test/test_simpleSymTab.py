@@ -1,5 +1,6 @@
 import pytest
-from symtab.symtab import SimpleSymTab, Entry
+from symtab.symtab import SimpleSymTab
+from symtab.data import Entry
 
 symbols = [('s1', 1, 0, 0), 
             ('s2', 1, 0, 1), 

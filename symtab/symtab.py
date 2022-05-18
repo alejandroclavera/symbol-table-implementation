@@ -57,9 +57,9 @@ class MultiScopeSymTab(SYMTAB):
     __current_scope__:SimpleSymTab
     
     def __init__(self, glob_optimization=True):
-        self.__scopes_stack__ = []
         self.__global_scope__ = SimpleSymTab(optimized=glob_optimization)
         self.__current_scope__ = self.__global_scope__
+        self.__scopes_stack__ = [self.__global_scope__ ]
 
 
     def sym_add(self, symbol:str, type:int, size:int, offset:int, data={}):
@@ -68,7 +68,7 @@ class MultiScopeSymTab(SYMTAB):
 
     def sym_lookup(self, symbol:str):
         # find the symbol in all scopes
-        for scope in self.__scopes_stack__.reverse():
+        for scope in reversed(self.__scopes_stack__):
             entry = scope.sym_lookup(symbol)
             if not entry is None:
                 return entry
@@ -76,10 +76,7 @@ class MultiScopeSymTab(SYMTAB):
 
 
     def sym_remove(self, symbol:str):
-        # find if the symbol are registered in the table
-        entry_in_table = self.__current_scope__.sym_lookup(symbol)
-        if entry_in_table is None:
-            raise Exception(f'Symbol {symbol} not registered')
+        self.__current_scope__.sym_remove(symbol)
 
     
     def sym_global_add(self, symbol: str, type: str, size: int, data={}):
@@ -100,6 +97,8 @@ class MultiScopeSymTab(SYMTAB):
 
 
     def sym_pop_scope(self):
+        if len(self.__scopes_stack__) == 1:
+            raise Exception('Can\'t remove the global scope')
         self.__scopes_stack__.pop()
         self.__current_scope__ = self.__scopes_stack__[-1]
 
