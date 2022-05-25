@@ -5,14 +5,14 @@ class Entry:
     symbol: str
     type: str
     size:int
-    data:dict
+    params:dict
 
-    def __init__(self, symbol:str, type:int, size:int, offset:int, data={}): 
+    def __init__(self, symbol:str, type:int, size:int, offset:int, params={}): 
         self.symbol = symbol
         self.type = type
         self.size = size
         self.offset = offset
-        self.data = data
+        self.params = params
 
     def __eq__(self, other):
         return \
@@ -20,14 +20,13 @@ class Entry:
             and self.type == other.type \
             and self.size == other.size \
             and self.offset == other.offset \
-            and self.data == other.data
+            and self.params == other.params
 
     def __str__(self):
-        return f'[{self.symbol}]'
+        return '{' + 'symbol:{0}, type:{1}, offset:{2}'.format(self.symbol, self.type, self.offset) + '}'
 
     def __repr__(self):
-        return f'[{self.symbol}]'
-        
+        return '{' + 'symbol:{0}, type:{1}, offset:{2}'.format(self.symbol, self.type, self.offset) + '}'
 
 
 class ListStructure:
