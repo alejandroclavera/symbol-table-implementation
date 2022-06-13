@@ -61,7 +61,7 @@ class SimpleSymTab(SYMTAB):
             offset of the symbol
         params : dict, optional
             extension of the symbol attributes(default {})
-         Returns
+        Returns
         -------
         Entry
             Entry stored in the symbol table or None in case that symbol is registered
@@ -170,7 +170,7 @@ class MultiScopeSymTab(SYMTAB):
         return self.__current_scope__.sym_add(symbol, type, size, offset, params)
 
 
-    def sym_lookup(self, symbol:str):
+    def sym_lookup(self, symbol:str, in_current_scope=False):
         """ Find a symbol in the symtab, if the symbol was not found in the current scope, it will
         search in the previus scopes
 
@@ -178,12 +178,17 @@ class MultiScopeSymTab(SYMTAB):
         ----------
         symbol : str
             lexeme of the symbol to find
-       
+        in_current_scope : bool, optional
+            find symbol only in the current scope
         Returns
         -------
         Entry
             Entry stored in the symbol table or None in case that symbol is not found
         """
+        # find in current scope if it is necesary
+        if in_current_scope:
+            return self.__current_scope__.sym_lookup(symbol)
+
         # find the symbol in all scopes
         for scope in reversed(self.__scopes_stack__):
             entry = scope.sym_lookup(symbol)
