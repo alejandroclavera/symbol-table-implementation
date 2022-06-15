@@ -115,7 +115,7 @@ class MultiScopeSymTab(SYMTAB):
     -------
     sym_add(symbol:str, type:int, size:int, offset:int, params={})
         Registre a new symbol in the current scope
-    sym_lookup(symbol:str)
+    sym_lookup(symbol:str, in_current_scope=False)
         Find a symbol in the current scope
     sym_remove(symbol:str)
         Remove a symbol of the current scope
